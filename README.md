@@ -1,14 +1,27 @@
 # BERTserini
 
 
-This repo is a release of our **BERTserini** model referenced in [End-to-End Open-Domain Question Answering with BERTserini](https://www.aclweb.org/anthology/N19-4013/). 
+This repo is about the experiments performed on **BERTserini** model referenced in [End-to-End Open-Domain Question Answering with BERTserini](https://www.aclweb.org/anthology/N19-4013/). 
 
 
 ![Image of BERTserini](https://github.com/rsvp-ai/bertserini/blob/master/pipeline.png?raw=true)
 
-We demonstrate an end-to-end Open-Domain question answering system that integrates BERT with the open-source [Pyserini](https://github.com/castorini/pyserini) information retrieval toolkit. Our system integrates best practices from IR with a BERT-based reader to identify answers from a large corpus of Wikipedia articles in an end-to-end fashion. We report significant improvements over previous results (such as [DrQA system](https://github.com/facebookresearch/DrQA)) on a standard benchmark test collection. It shows that fine-tuning pre-trained BERT with [SQuAD 1.1 Dataset](https://arxiv.org/abs/1606.05250) is sufficient to achieve high accuracy in identifying answer spans under Open Domain setting.
+BERTserini is an end-to-end Open-Domain question answering system that integrates BERT with the open-source [Pyserini](https://github.com/castorini/pyserini) information retrieval toolkit. The system integrates best practices from IR with a BERT-based reader to identify answers from a large corpus of Wikipedia articles in an end-to-end fashion.Significant improvements were reported over previous results (such as [DrQA system](https://github.com/facebookresearch/DrQA)) on a standard benchmark test collection. It shows that fine-tuning pre-trained BERT with [SQuAD 1.1 Dataset](https://arxiv.org/abs/1606.05250) is sufficient to achieve high accuracy in identifying answer spans under Open Domain setting.
 
-Following the Open Domain QA setting of DrQA, we are using Wikipedia as the large scale knowledge source of documents. The system first retrieves several candidate text segmentations among the entire knowledge source of documents, then read through the candidate text segments to determine the answers.
+Following the Open Domain QA setting of DrQA,Wikipedia was used as the large scale knowledge source of documents. The system first retrieves several candidate text segmentations among the entire knowledge source of documents, then read through the candidate text segments to determine the answers.
+In the original model, scores were calculated as weighted sum of anserini score and BERT score. We experimented changing this simple linear scoring approach.
+
+
+## Our Experiments
+The final interpolation function used
+by the paper is a linear combination of scores from the anserini
+retriever and BERT model. µ ranging from [0 1] is a weighting
+factor between the two scores. Experiments have shown that
+this kind of weighting scheme is not very effective. Therefore
+we decided to introduce non-linearity to the function. Thus we
+decided to use the following interpolation function:
+
+
 
 ## Package Installation
 ```
