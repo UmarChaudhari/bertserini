@@ -10,9 +10,9 @@ BERTserini is an end-to-end Open-Domain question answering system that integrate
 
 Following the Open Domain QA setting of DrQA,Wikipedia was used as the large scale knowledge source of documents. The system first retrieves several candidate text segmentations among the entire knowledge source of documents, then read through the candidate text segments to determine the answers.
 
-In the original model, scores were calculated as weighted sum of anserini score and BERT score. We experimented changing this simple linear scoring approach. The orignial formula is following.
+In the original model, final interpolation function was calculated as weighted sum of anserini score and BERT score. We experimented changing this simple linear final interpolation function. The orignial formula is following.
 
-![BERTserini Scoring](https://github.com/UmarChaudhari/bertserini/blob/master/original_score.png?raw=true)
+![BERTserini original Scoring ](https://github.com/UmarChaudhari/bertserini/blob/master/original_score.png?raw=true)
 
 ## Our Experiments
 The final interpolation function used
@@ -22,6 +22,27 @@ factor between the two scores. Experiments have shown that
 this kind of weighting scheme is not very effective. Therefore
 we decided to introduce non-linearity to the function. Thus we
 decided to use the following interpolation function:
+
+![Our Scoring](https://github.com/UmarChaudhari/bertserini/blob/master/our_score.png?raw=true)
+
+## Results
+Results are shown in the figure below and explanation is given afterwards
+
+![Results](https://github.com/UmarChaudhari/bertserini/blob/master/graphs.png?raw=true)
+
+## Obervations
+In the given figure when When retrieving k = 20 contexts
+onward, Pyserini successfully returns 80% of the time atleast one paragraph containing the correct answer. Therefore
+pyserini retrieval is not the bottleneck in this case. However,
+20% of the time the reference answer is present somewhere
+in the context but BERT is not able to find it. Thus there is a
+gap for improvement for the BERT model.
+Considering these two probabilities and taking into account
+that the two scoring events are independent. We can compute
+the joint probabilites as a product of the two probabilites.
+This probabilty represents the upper bound for the interpolation function. It means that the maximum accuracy that an
+interpolation function can reach is the product of the accuracy
+of both the models.
 
 ## Conclusion
 We reviewed BERTserini pipeline which is an end-to-end open-domain question answering system that integrates
