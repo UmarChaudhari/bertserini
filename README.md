@@ -12,7 +12,7 @@ Following the Open Domain QA setting of DrQA,Wikipedia was used as the large sca
 
 In the original model, scores were calculated as weighted sum of anserini score and BERT score. We experimented changing this simple linear scoring approach. The orignial formula is following.
 
-![BERTserini Scoring](https://github.com/rsvp-ai/bertserini/blob/master/original_score.png?raw=true)
+![BERTserini Scoring](https://github.com/UmarChaudhari/bertserini/blob/master/original_score.png?raw=true)
 
 ## Our Experiments
 The final interpolation function used
