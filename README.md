@@ -9,8 +9,10 @@ This repo is about the experiments performed on **BERTserini** model referenced 
 BERTserini is an end-to-end Open-Domain question answering system that integrates BERT with the open-source [Pyserini](https://github.com/castorini/pyserini) information retrieval toolkit. The system integrates best practices from IR with a BERT-based reader to identify answers from a large corpus of Wikipedia articles in an end-to-end fashion.Significant improvements were reported over previous results (such as [DrQA system](https://github.com/facebookresearch/DrQA)) on a standard benchmark test collection. It shows that fine-tuning pre-trained BERT with [SQuAD 1.1 Dataset](https://arxiv.org/abs/1606.05250) is sufficient to achieve high accuracy in identifying answer spans under Open Domain setting.
 
 Following the Open Domain QA setting of DrQA,Wikipedia was used as the large scale knowledge source of documents. The system first retrieves several candidate text segmentations among the entire knowledge source of documents, then read through the candidate text segments to determine the answers.
-In the original model, scores were calculated as weighted sum of anserini score and BERT score. We experimented changing this simple linear scoring approach.
 
+In the original model, scores were calculated as weighted sum of anserini score and BERT score. We experimented changing this simple linear scoring approach. The orignial formula is following.
+
+![BERTserini Scoring](https://github.com/rsvp-ai/bertserini/blob/master/original_score.png?raw=true)
 
 ## Our Experiments
 The final interpolation function used
@@ -21,7 +23,13 @@ this kind of weighting scheme is not very effective. Therefore
 we decided to introduce non-linearity to the function. Thus we
 decided to use the following interpolation function:
 
-
+## Conclusion
+We reviewed BERTserini pipeline which is an end-to-end open-domain question answering system that integrates
+BERT and Anserini information retrieval tooklkit. The pipeline
+manages to achieve better results using a simpler two stage
+architecture. As mentioned before, there is room for improvement in retrieval, answer extraction and answer aggregation. In
+addition the scoring criteria could be improved, by manually
+investigating the answers from the retrieval system.
 
 ## Package Installation
 ```
